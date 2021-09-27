@@ -9,6 +9,7 @@ def scraper_main():
     driver.get("https://www.google.com/")
 
     google_search(driver)   # Google Searches for an item
+    
 
     time.sleep(2)
 
