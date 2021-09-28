@@ -20,16 +20,31 @@ def scraper_main():
     driver.quit()   # Exits the driver
 
 
-def google_search(search_word: str, number_imgs: int, driver: webdriver, sleep_between_intervals: int = 1):
+def google_search(search_word: str, max_number_imgs: int, driver: webdriver, sleep_between_intervals: int = 1):
     
     def scroll_to_end(driver: webdriver):
         driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
         time.sleep(sleep_between_intervals)
 
-    driver.get("https://www.google.com/")
-    search = driver.find_element_by_name("q")
-    search.send_keys(search_word)
-    search.send_keys(Keys.ENTER)
+    search_url = "https://www.google.com/search?safe=off&site=&tbm=isch&source=hp&q={q}&oq={q}&gs_l=img"
+    
+    driver.get(search_url.format(q = search_word))  # Loads the image page of the search word
+
+
+    image_urls = set()
+    image_count, results_start = 0, 0
+
+    while image_count < max_number_imgs:
+        scroll_to_end(driver)
+
+        thumbnail_results = driver.find_element_by_css_selector("img.Q4LuWd")
+        number_results = len(thumbnail_results)
+
+        print(f"Found: {number_results} search results. Extracting links from {results_start}:{number_results}")
+
+        break
+    
+    
 
 
 
